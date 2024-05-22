@@ -31,7 +31,7 @@ import { Fonts } from '../utils/Fonts'
 import reportError from '../utils/ReportError'
 import { replaceSymbols } from '../utils/Utils'
 import moment from 'moment'
-// import DatePicker from 'react-native-date-picker';
+import DatePicker from 'react-native-date-picker';
 import Modal from 'react-native-modalbox'
 
 const styles = StyleSheet.create({
@@ -590,15 +590,15 @@ class CreateEventGuestPassOrderScreen extends React.Component {
                                 <Text style={{ color: '#747E90', marginRight: 20 }}>Применить</Text>
                             </TouchableOpacity>
                         </View>
-                        {/*<DatePicker*/}
-                        {/*    minuteInterval={5}*/}
-                        {/*    mode="time"*/}
-                        {/*    date={this.getDate(date)}*/}
-                        {/*    onDateChange={(changedTime) => {*/}
-                        {/*        this.currentTime = changedTime*/}
-                        {/*        this.choiceTime = true*/}
-                        {/*    }}*/}
-                        {/*/>*/}
+                        <DatePicker
+                            minuteInterval={5}
+                            mode="time"
+                            date={this.getDate(date)}
+                            onDateChange={(changedTime) => {
+                                this.currentTime = changedTime
+                                this.choiceTime = true
+                            }}
+                        />
                     </View>
                 </Modal>
             </View>

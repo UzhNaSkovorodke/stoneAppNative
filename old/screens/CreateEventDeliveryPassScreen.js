@@ -1,6 +1,6 @@
-import React, { useRef, useState } from 'react'
-import { ScrollView, StyleSheet, Text, TextInput, TouchableOpacity, View } from 'react-native'
-import { connect } from 'react-redux'
+import React, {useRef, useState} from 'react'
+import {ScrollView, StyleSheet, Text, TextInput, TouchableOpacity, View} from 'react-native'
+import {connect} from 'react-redux'
 
 import CalendarButton from '../components/buttons/CalendarButton'
 import DefaultButton from '../components/buttons/DefaultButton'
@@ -14,7 +14,7 @@ import shared from '../../store/index'
 import commonStyles from '../styles/CommonStyles'
 import reportError from '../utils/ReportError'
 import moment from 'moment'
-// import DatePicker from 'react-native-date-picker'
+import DatePicker from 'react-native-date-picker'
 import Modal from 'react-native-modalbox'
 
 const styles = StyleSheet.create({
@@ -61,7 +61,7 @@ const styles = StyleSheet.create({
         shadowColor: '#111111',
         shadowOpacity: 0.15,
         shadowRadius: 4,
-        shadowOffset: { width: 0, height: 0 },
+        shadowOffset: {width: 0, height: 0},
     },
     splitLine1: {
         marginTop: 20,
@@ -96,26 +96,27 @@ const styles = StyleSheet.create({
     },
 })
 
-const DeliveryPassScreen = ({ projects, sendPass, setError, setSuccess, navigation }) => {
+const DeliveryPassScreen = ({projects, sendPass, setError, setSuccess, navigation}) => {
     const [deliveryTypeId, setDeliveryTypeId] = useState(1)
     const [date, setDate] = useState(new Date() + 1000)
     const [selectedProject, setSelectedProject] = useState(projects[0] || {})
     const [comment, setComment] = useState('')
     const [guests, setGuests] = useState([])
-    const [carData, setCarData] = useState({ plateNumber: '', model: '' })
+    const [carData, setCarData] = useState({plateNumber: '', model: ''})
     const [isShowLoader, setIsShowLoader] = useState(false)
     const [choiceTime, setChoiceTime] = useState(false)
+    //TODO CHOICE TIME зачем
 
     const scrollViewRef = useRef(null)
     const timeDialogRef = useRef(null)
     const currentTimeRef = useRef(new Date())
 
-    const checkCarData = ({ carData, deliveryTypeId }) =>
+    const checkCarData = ({carData, deliveryTypeId}) =>
         deliveryTypeId === 1 ||
         (deliveryTypeId !== 1 && carData.plateNumber !== undefined && carData.plateNumber !== '')
 
     const onClickedSendButton = () => {
-        if (!checkCarData({ carData, deliveryTypeId })) {
+        if (!checkCarData({carData, deliveryTypeId})) {
             setError([
                 {
                     message:
@@ -123,14 +124,14 @@ const DeliveryPassScreen = ({ projects, sendPass, setError, setSuccess, navigati
                 },
             ])
         } else if (date < new Date()) {
-            setError([{ message: 'Пожалуйста, установите правильное время.' }])
+            setError([{message: 'Пожалуйста, установите правильное время.'}])
         } else {
             setIsShowLoader(true)
 
             sendPass({
                 eventTypeId: 4,
                 projectId: selectedProject.projectId,
-                dateTime: date.toLocaleString('en-US', { timeZone: 'Europe/Moscow' }),
+                dateTime: date.toLocaleString('en-US', {timeZone: 'Europe/Moscow'}),
                 arrivalTypeId: deliveryTypeId,
                 byCar: deliveryTypeId !== 1,
                 guests,
@@ -158,11 +159,11 @@ const DeliveryPassScreen = ({ projects, sendPass, setError, setSuccess, navigati
     const onTimeButtonPressed = () => timeDialogRef.current.open()
 
     const saveGuests = (value, keyName) => {
-        setGuests([{ ...guests[0], [keyName]: value }])
+        setGuests([{...guests[0], [keyName]: value}])
     }
 
     const saveDataAboutCar = (value, keyName) => {
-        setCarData({ ...carData, [keyName]: value })
+        setCarData({...carData, [keyName]: value})
     }
 
     const onSetDate = (dateStringFromPicker) => {
@@ -174,7 +175,7 @@ const DeliveryPassScreen = ({ projects, sendPass, setError, setSuccess, navigati
         setDate(newDate)
     }
 
-    const onCheckResidence = ({ id }) => {
+    const onCheckResidence = ({id}) => {
         const selectedProject = projects.find((project) => project.projectId === id)
         setSelectedProject(selectedProject)
     }
@@ -200,7 +201,7 @@ const DeliveryPassScreen = ({ projects, sendPass, setError, setSuccess, navigati
             </>
         )
     }
-    const getMappedProjects = ({ projectName, projectId }) => ({
+    const getMappedProjects = ({projectName, projectId}) => ({
         text: projectName,
         id: projectId,
     })
@@ -208,8 +209,8 @@ const DeliveryPassScreen = ({ projects, sendPass, setError, setSuccess, navigati
     return (
         <View>
             <ScrollView ref={scrollViewRef}>
-                <View style={[commonStyles.container, { paddingTop: 16 }]}>
-                    <CommentLabel text="Выберите проект" required />
+                <View style={[commonStyles.container, {paddingTop: 16}]}>
+                    <CommentLabel text="Выберите проект" required/>
                     <ResidenceButton
                         onPress={() =>
                             navigation.navigate('ItemSelectionScreen', {
@@ -223,11 +224,11 @@ const DeliveryPassScreen = ({ projects, sendPass, setError, setSuccess, navigati
                         isArrowVisible={projects.length > 1}
                     />
 
-                    <SplitLine style={styles.splitLine1} />
+                    <SplitLine style={styles.splitLine1}/>
 
-                    <View style={{ flexDirection: 'row' }}>
-                        <View style={{ flex: 1, alignItems: 'flex-start' }}>
-                            <CommentLabel text="Дата" required />
+                    <View style={{flexDirection: 'row'}}>
+                        <View style={{flex: 1, alignItems: 'flex-start'}}>
+                            <CommentLabel text="Дата" required/>
                             <CalendarButton
                                 onPress={() => {
                                     navigation.navigate('CheckDateScreen', {
@@ -237,8 +238,8 @@ const DeliveryPassScreen = ({ projects, sendPass, setError, setSuccess, navigati
                                 currentMode={moment(date).format('DD.MM.YYYY')}
                             />
                         </View>
-                        <View style={{ flex: 1, alignItems: 'flex-start' }}>
-                            <CommentLabel text="Время" required />
+                        <View style={{flex: 1, alignItems: 'flex-start'}}>
+                            <CommentLabel text="Время" required/>
                             {/*<TimeButton*/}
                             {/*    onPress={onTimeButtonPressed}*/}
                             {/*    time={*/}
@@ -249,10 +250,10 @@ const DeliveryPassScreen = ({ projects, sendPass, setError, setSuccess, navigati
                         </View>
                     </View>
 
-                    <View style={{ width: '100%' }}>
-                        <SplitLine style={styles.splitLine2} />
-                        <CommentLabel text="Тип доставки" required />
-                        <View style={{ flexDirection: 'row' }}>
+                    <View style={{width: '100%'}}>
+                        <SplitLine style={styles.splitLine2}/>
+                        <CommentLabel text="Тип доставки" required/>
+                        <View style={{flexDirection: 'row'}}>
                             <RoundButton
                                 style={styles.onFootButton}
                                 isSelected={deliveryTypeId === 1}
@@ -268,7 +269,7 @@ const DeliveryPassScreen = ({ projects, sendPass, setError, setSuccess, navigati
                         </View>
                     </View>
 
-                    <SplitLine style={styles.splitLine3} />
+                    <SplitLine style={styles.splitLine3}/>
 
                     <TextField
                         label="Телефон"
@@ -277,7 +278,7 @@ const DeliveryPassScreen = ({ projects, sendPass, setError, setSuccess, navigati
                         onChangeText={(mask) => saveGuests(mask, 'phoneNumber')}
                     />
 
-                    <TextField label="Имя" onChangeText={(text) => saveGuests(text, 'name')} />
+                    <TextField label="Имя" onChangeText={(text) => saveGuests(text, 'name')}/>
 
                     <TextField
                         label="Фамилия"
@@ -290,7 +291,7 @@ const DeliveryPassScreen = ({ projects, sendPass, setError, setSuccess, navigati
                     />
                     {renderCarInfo()}
                     <CommentLabel
-                        style={{ marginTop: 30 }}
+                        style={{marginTop: 30}}
                         text="Укажите дополнительный комментарий"
                     />
                     <TextInput
@@ -336,21 +337,23 @@ const DeliveryPassScreen = ({ projects, sendPass, setError, setSuccess, navigati
                             <Text style={styles.acceptLabel}>Применить</Text>
                         </TouchableOpacity>
                     </View>
-                    {/*<DatePicker*/}
-                    {/*    minuteInterval={5}*/}
-                    {/*    mode="time"*/}
-                    {/*    date={this.getDate()}*/}
-                    {/*    onDateChange={(changedTime) => {*/}
-                    {/*        this.currentTime = changedTime*/}
-                    {/*        this.choiceTime = true*/}
-                    {/*    }}*/}
+                    <DatePicker
+                        minuteInterval={5}
+                        mode="time"
+                        date={this.getDate()}
+                        onDateChange={(changedTime) => {
+                            //TODO непонятно зачем эти 2 строки
+
+                            // this.currentTime = changedTime
+                            // this.choiceTime = true
+                        }}/>
                 </View>
             </Modal>
         </View>
     )
 }
 
-export default connect(({ projects }) => ({ projects: projects.list }), {
+export default connect(({projects}) => ({projects: projects.list}), {
     sendPass: shared.actions.sendPass,
     setError: shared.actions.error,
     setSuccess: shared.actions.success,

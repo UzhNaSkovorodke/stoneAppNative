@@ -15,6 +15,7 @@ import reportError from '../utils/ReportError'
 import { replaceSymbols } from '../utils/Utils'
 import moment from 'moment'
 import Modal from 'react-native-modalbox'
+import DatePicker from "react-native-date-picker";
 
 const styles = StyleSheet.create({
     buttonPressed: {
@@ -333,15 +334,15 @@ class CreateEventTaxiPassOrderScreen extends React.Component {
                                 <Text style={styles.applyText}>Применить</Text>
                             </TouchableOpacity>
                         </View>
-                        {/*<DatePicker*/}
-                        {/*    minuteInterval={5}*/}
-                        {/*    mode="time"*/}
-                        {/*    date={this.getDate(date)}*/}
-                        {/*    onDateChange={(changedTime) => {*/}
-                        {/*        this.currentTime = changedTime*/}
-                        {/*        this.choiceTime = true*/}
-                        {/*    }}*/}
-                        {/*/>*/}
+                        <DatePicker
+                            minuteInterval={5}
+                            mode="time"
+                            date={this.getDate(date)}
+                            onDateChange={(changedTime) => {
+                                this.currentTime = changedTime
+                                this.choiceTime = true
+                            }}
+                        />
                     </View>
                 </Modal>
             </View>

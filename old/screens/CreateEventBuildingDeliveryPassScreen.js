@@ -1,15 +1,6 @@
 import React from 'react'
-import {
-    Animated,
-    Dimensions,
-    ScrollView,
-    StyleSheet,
-    Text,
-    TextInput,
-    TouchableOpacity,
-    View,
-} from 'react-native'
-import { connect } from 'react-redux'
+import {Animated, Dimensions, ScrollView, StyleSheet, Text, TextInput, TouchableOpacity, View,} from 'react-native'
+import {connect} from 'react-redux'
 
 import CalendarButton from '../components/buttons/CalendarButton'
 import DefaultButton from '../components/buttons/DefaultButton'
@@ -22,9 +13,11 @@ import TextField from '../components/custom/TextField'
 import shared from '../../store/index'
 import commonStyles from '../styles/CommonStyles'
 import reportError from '../utils/ReportError'
-import { getTime, replaceSymbols } from '../utils/Utils'
+import {replaceSymbols} from '../utils/Utils'
 import moment from 'moment'
 import Modal from 'react-native-modalbox'
+import DatePicker from "react-native-date-picker";
+//TODO modalBox
 
 const styles = StyleSheet.create({
     buttonPressed: {
@@ -378,15 +371,15 @@ class CreateEventBuildingDeliveryPassScreen extends React.Component {
                                 <Text style={styles.applyText}>Применить</Text>
                             </TouchableOpacity>
                         </View>
-                        {/*<DatePicker*/}
-                        {/*    minuteInterval={5}*/}
-                        {/*    mode="time"*/}
-                        {/*    date={this.getDate(date)}*/}
-                        {/*    onDateChange={(changedTime) => {*/}
-                        {/*        this.currentTime = changedTime*/}
-                        {/*        this.choiceTime = true*/}
-                        {/*    }}*/}
-                        {/*/>*/}
+                        <DatePicker
+                            minuteInterval={5}
+                            mode="time"
+                            date={this.getDate(date)}
+                            onDateChange={(changedTime) => {
+                                this.currentTime = changedTime
+                                this.choiceTime = true
+                            }}
+                        />
                     </View>
                 </Modal>
             </View>

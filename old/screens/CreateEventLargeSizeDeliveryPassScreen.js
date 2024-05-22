@@ -1,5 +1,5 @@
 import React from 'react'
-import { ScrollView, StyleSheet, TextInput, View } from 'react-native'
+import {ScrollView, StyleSheet, TextInput, TouchableOpacity, View} from 'react-native'
 import { connect } from 'react-redux'
 
 import CalendarButton from '../components/buttons/CalendarButton'
@@ -14,6 +14,7 @@ import commonStyles from '../styles/CommonStyles'
 import reportError from '../utils/ReportError'
 import { replaceSymbols } from '../utils/Utils'
 import moment from 'moment'
+import DatePicker from "react-native-date-picker";
 
 const styles = StyleSheet.create({
     buttonPressed: {
@@ -310,39 +311,39 @@ class CreateEventLargeSizeDeliveryPassScreen extends React.Component {
                         />
                     </View>
                 </ScrollView>
-                {/*<Modal position="bottom" style={styles.modalWindow} swipeArea={0} ref="timeDialog">*/}
-                {/*    <View style={styles.modalMainView}>*/}
-                {/*        <View style={styles.topModalView}>*/}
-                {/*            <TouchableOpacity*/}
-                {/*                onPress={() => {*/}
-                {/*                    const { timeDialog } = this.refs*/}
-                {/*                    timeDialog.close()*/}
-                {/*                }}>*/}
-                {/*                <Text style={styles.cancelText}>Отмена</Text>*/}
-                {/*            </TouchableOpacity>*/}
-                {/*            <TouchableOpacity*/}
-                {/*                onPress={() => {*/}
-                {/*                    const { timeDialog } = this.refs*/}
-                {/*                    const currentDate = date*/}
-                {/*                    currentDate.setHours(this.currentTime.getHours())*/}
-                {/*                    currentDate.setMinutes(this.currentTime.getMinutes())*/}
-                {/*                    this.setState({ date: currentDate })*/}
-                {/*                    timeDialog.close()*/}
-                {/*                }}>*/}
-                {/*                <Text style={styles.applyText}>Применить</Text>*/}
-                {/*            </TouchableOpacity>*/}
-                {/*        </View>*/}
-                {/*        <DatePicker*/}
-                {/*            minuteInterval={5}*/}
-                {/*            mode="time"*/}
-                {/*            date={this.getDate(date)}*/}
-                {/*            onDateChange={(changedTime) => {*/}
-                {/*                this.currentTime = changedTime*/}
-                {/*                this.choiceTime = true*/}
-                {/*            }}*/}
-                {/*        />*/}
-                {/*    </View>*/}
-                {/*</Modal>*/}
+                <Modal position="bottom" style={styles.modalWindow} swipeArea={0} ref="timeDialog">
+                    <View style={styles.modalMainView}>
+                        <View style={styles.topModalView}>
+                            {/*<TouchableOpacity*/}
+                            {/*    onPress={() => {*/}
+                            {/*        const { timeDialog } = this.refs*/}
+                            {/*        timeDialog.close()*/}
+                            {/*    }}>*/}
+                            {/*    <Text style={styles.cancelText}>Отмена</Text>*/}
+                            {/*</TouchableOpacity>*/}
+                            <TouchableOpacity
+                                onPress={() => {
+                                    // const { timeDialog } = this.refs
+                                    // const currentDate = date
+                                    // currentDate.setHours(this.currentTime.getHours())
+                                    // currentDate.setMinutes(this.currentTime.getMinutes())
+                                    // this.setState({ date: currentDate })
+                                    // timeDialog.close()
+                                }}>
+                                <Text style={styles.applyText}>Применить</Text>
+                            </TouchableOpacity>
+                        </View>
+                        <DatePicker
+                            minuteInterval={5}
+                            mode="time"
+                            date={this.getDate(date)}
+                            onDateChange={(changedTime) => {
+                                this.currentTime = changedTime
+                                this.choiceTime = true
+                            }}
+                        />
+                    </View>
+                </Modal>
             </View>
         )
     }
