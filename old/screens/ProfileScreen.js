@@ -29,19 +29,19 @@ const ProfileScreen = ({
   editProfile,
   setError,
 }) => {
-  const [isAvatarLoading, setIsAvatarLoading] = useState(true);
-  const [profileAvatarUri, setProfileAvatarUri] = useState(
-    'https://img.freepik.com/premium-psd/3d-cartoon-man-smiling-portrait-isolated-transparent-background-png-psd_888962-1569.jpg',
-  );
+  const [isAvatarLoading, setIsAvatarLoading] = useState(false);
 
+  const [profileAvatarUri, setProfileAvatarUri] = useState(
+    `${uri.imagesProxyUrl}${profile.avatar}`,
+  );
   const onPasswordChangeButtonPress = () => {
     navigation.navigate('PasswordChangeScreen');
   };
 
   const onLogOutButtonPress = () => {
-    RNSecureStorage.remove('login');
-    RNSecureStorage.remove('password');
-    RNSecureStorage.remove('PinCode');
+    RNSecureStorage.removeItem('login');
+    RNSecureStorage.removeItem('password');
+    RNSecureStorage.removeItem('PinCode');
     logoutProfile();
     navigation.navigate('SignInScreen');
   };
@@ -84,6 +84,9 @@ const ProfileScreen = ({
     const [lastName, firstName] = ((profile && profile.fio) || '')
       .replace(/[^a-zA-Zа-яА-Я\s]/g, '')
       .split(' ');
+    if (!profileAvatarUri) {
+      return null;
+    }
 
     if (profileAvatarUri === '') {
       return (
@@ -108,8 +111,12 @@ const ProfileScreen = ({
           style={styles.profileImage}
           resizeMode="cover"
           source={{uri: profileAvatarUri}}
-          onLoadEnd={() => setIsAvatarLoading(false)}
-          onLoadStart={() => setIsAvatarLoading(true)}
+          onLoadStart={() => {
+            setIsAvatarLoading(true);
+          }}
+          onLoadEnd={() => {
+            setIsAvatarLoading(false);
+          }}
         />
         {isAvatarLoading ? (
           <View style={[styles.profileImage, styles.spinnerWrapper]}>

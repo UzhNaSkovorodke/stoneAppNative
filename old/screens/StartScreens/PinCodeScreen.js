@@ -142,8 +142,8 @@ class PinCodeScreen extends React.Component {
   };
 
   componentDidMount() {
-    BackHandler.addEventListener('hardwareBackPress', this.handleBackButton);
-    RNSecureStorage.exists('PinCode').then(isHas => {
+    //BackHandler.addEventListener('hardwareBackPress', this.handleBackButton);
+    RNSecureStorage.exist('PinCode').then(isHas => {
       if (isHas) {
         TouchId.isSupported()
           .then(type => {
@@ -243,9 +243,9 @@ class PinCodeScreen extends React.Component {
   onFail = () => {
     const {navigation} = this.props;
 
-    RNSecureStorage.remove('login');
-    RNSecureStorage.remove('password');
-    RNSecureStorage.remove('PinCode');
+    RNSecureStorage.removeItem('login');
+    RNSecureStorage.removeItem('password');
+    RNSecureStorage.removeItem('PinCode');
 
     navigation.navigate('SignInScreen');
   };

@@ -1,7 +1,8 @@
 import * as React from 'react';
-import {StatusBar} from 'react-native';
+import {Platform, StatusBar} from 'react-native';
 import {Provider} from 'react-redux';
 
+import KeyboardSpacer from 'react-native-keyboard-spacer';
 import ModalRoot from './old/components/custom/RootModalsComponent';
 import AppNavigator from './old/navigation/AppNavigator';
 import shared from './store/index';
@@ -28,6 +29,7 @@ export default function App() {
           <Provider store={shared.store}>
             <ModalRoot.RootModalsComponent>
               <AppNavigator />
+              {Platform.OS === 'ios' ? <KeyboardSpacer /> : null}
             </ModalRoot.RootModalsComponent>
           </Provider>
         </NavigationContainer>

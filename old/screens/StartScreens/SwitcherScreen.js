@@ -20,7 +20,7 @@ const SwitcherScreen = ({navigation, auth, fetchProfile}) => {
   }, [navigation]);
 
   const bootstrapAsync = async () => {
-    RNSecureStorage.exists('password')
+    RNSecureStorage.exist('password')
       .then(isExisted =>
         isExisted ? onCheckLoggedLaunch() : onCheckFirstLaunch(),
       )
