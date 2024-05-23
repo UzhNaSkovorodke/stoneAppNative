@@ -1,58 +1,54 @@
-import React, {useState} from 'react';
-import {
-  Image,
-  ScrollView,
-  StyleSheet,
-  Text,
-  TouchableOpacity,
-  View,
-} from 'react-native';
-import {connect} from 'react-redux';
+import React, { useEffect, useState } from "react";
+import { Image, ScrollView, StyleSheet, Text, TouchableOpacity, View } from "react-native";
+import { connect } from "react-redux";
 
-import EditProfileImage from '../../assets/oldImg/EditProfileImage.png';
+import EditProfileImage from "../../assets/oldImg/EditProfileImage.png";
 
-import DefaultButton from '../components/buttons/DefaultButton';
-import CommentLabel from '../components/custom/CommentLabel';
-import Spinner from '../components/custom/Spinner';
-import SplitLine from '../components/custom/SplitLine';
+import DefaultButton from "../components/buttons/DefaultButton";
+import CommentLabel from "../components/custom/CommentLabel";
+import Spinner from "../components/custom/Spinner";
+import SplitLine from "../components/custom/SplitLine";
 
-import shared from '../../store/index';
-import uri from '../constants/Uri';
-import {Fonts} from '../utils/Fonts';
-import RNSecureStorage from 'rn-secure-storage';
-import ImagePicker from 'react-native-image-picker';
+import shared from "../../store/index";
+import uri from "../constants/Uri";
+import { Fonts } from "../utils/Fonts";
+import RNSecureStorage from "rn-secure-storage";
+import ImagePicker from "react-native-image-picker";
 
 const ProfileScreen = ({
-  navigation,
-  profile,
-  logoutProfile,
-  editProfile,
-  setError,
-}) => {
-  const [isAvatarLoading, setIsAvatarLoading] = useState(false);
+                         navigation,
+                         profile,
+                         logoutProfile,
+                         editProfile,
+                         setError,
+                       }) => {
+  const [isAvatarLoading, setIsAvatarLoading] = useState(true);
 
-  const [profileAvatarUri, setProfileAvatarUri] = useState(
-    `${uri.imagesProxyUrl}${profile.avatar}`,
-  );
+  const [profileAvatarUri, setProfileAvatarUri] = useState(null);
+
+  useEffect(() => {
+    setProfileAvatarUri(`${uri.imagesProxyUrl}${profile.avatar}`);
+    setIsAvatarLoading(false);
+  });
   const onPasswordChangeButtonPress = () => {
-    navigation.navigate('PasswordChangeScreen');
+    navigation.navigate("PasswordChangeScreen");
   };
 
   const onLogOutButtonPress = () => {
-    RNSecureStorage.removeItem('login');
-    RNSecureStorage.removeItem('password');
-    RNSecureStorage.removeItem('PinCode');
+    RNSecureStorage.removeItem("login");
+    RNSecureStorage.removeItem("password");
+    RNSecureStorage.removeItem("PinCode");
     logoutProfile();
-    navigation.navigate('SignInScreen');
+    navigation.navigate("SignInScreen");
   };
 
   const selectProfileImage = async () => {
-    const {status} = await ImagePicker.requestMediaLibraryPermissionsAsync();
-    if (status !== 'granted') {
+    const { status } = await ImagePicker.requestMediaLibraryPermissionsAsync();
+    if (status !== "granted") {
       setError([
         {
           message:
-            'Доступ к фото запрещен. Дать доступ можно в настройках приложения.',
+            "Доступ к фото запрещен. Дать доступ можно в настройках приложения.",
         },
       ]);
       return;
@@ -81,20 +77,20 @@ const ProfileScreen = ({
   };
 
   const renderImage = () => {
-    const [lastName, firstName] = ((profile && profile.fio) || '')
-      .replace(/[^a-zA-Zа-яА-Я\s]/g, '')
-      .split(' ');
+    const [lastName, firstName] = ((profile && profile.fio) || "")
+      .replace(/[^a-zA-Zа-яА-Я\s]/g, "")
+      .split(" ");
     if (!profileAvatarUri) {
       return null;
     }
 
-    if (profileAvatarUri === '') {
+    if (profileAvatarUri === "") {
       return (
         <View>
           <View style={styles.noImageWrapper}>
             <Text style={styles.noImageText}>
-              {lastName ? lastName[0] : ''}
-              {firstName ? firstName[0] : ''}
+              {lastName ? lastName[0] : ""}
+              {firstName ? firstName[0] : ""}
             </Text>
           </View>
           <TouchableOpacity
@@ -110,7 +106,7 @@ const ProfileScreen = ({
         <Image
           style={styles.profileImage}
           resizeMode="cover"
-          source={{uri: profileAvatarUri}}
+          source={{ uri: profileAvatarUri }}
           onLoadStart={() => {
             setIsAvatarLoading(true);
           }}
@@ -136,18 +132,18 @@ const ProfileScreen = ({
   const renderProfileFIO = () => {
     const [lastName, firstName, patronymic] = (
       (profile && profile.fio) ||
-      ''
-    ).split(' ');
+      ""
+    ).split(" ");
     return (
       <View>
         <Text style={styles.fioText}>
-          {lastName ? `${lastName}` : ''}
-          {firstName ? `\n${firstName}` : ''}
-          {patronymic ? `\n${patronymic}` : ''}
+          {lastName ? `${lastName}` : ""}
+          {firstName ? `\n${firstName}` : ""}
+          {patronymic ? `\n${patronymic}` : ""}
         </Text>
         <TouchableOpacity
           onPress={() => {
-            navigation.navigate('EditProfileScreen', {
+            navigation.navigate("EditProfileScreen", {
               profileFio: profile.fio,
               phoneNumber: profile.phoneNumber,
               profileEmail: profile.email,
@@ -163,10 +159,10 @@ const ProfileScreen = ({
     return (
       <View style={styles.profileDataWrapper}>
         <CommentLabel text="Телефон" />
-        <Text style={styles.text}>{profile.phoneNumber || ''}</Text>
+        <Text style={styles.text}>{profile.phoneNumber || ""}</Text>
         <SplitLine style={styles.splitLine2} />
         <CommentLabel text="Электронная почта" />
-        <Text style={styles.text}>{profile.email || ''}</Text>
+        <Text style={styles.text}>{profile.email || ""}</Text>
         <SplitLine style={styles.splitLine3} />
       </View>
     );
@@ -175,7 +171,7 @@ const ProfileScreen = ({
   return (
     <ScrollView scrollEventThrottle={16}>
       <View style={styles.container}>
-        <View style={{flexDirection: 'row'}}>
+        <View style={{ flexDirection: "row" }}>
           {renderImage()}
           {renderProfileFIO()}
         </View>
@@ -188,9 +184,9 @@ const ProfileScreen = ({
         <TouchableOpacity
           style={styles.privacyPolicyText}
           onPress={() =>
-            navigation.navigate('PdfViewScreen', {
+            navigation.navigate("PdfViewScreen", {
               fileLink: uri.privacyPolicyFileLink,
-              title: 'Политика Конфиденциальности',
+              title: "Политика Конфиденциальности",
             })
           }>
           <Text style={styles.profileExitText}>
@@ -200,9 +196,9 @@ const ProfileScreen = ({
         <TouchableOpacity
           style={styles.rulesText}
           onPress={() =>
-            navigation.navigate('PdfViewScreen', {
+            navigation.navigate("PdfViewScreen", {
               fileLink: uri.rulesFileLink,
-              title: 'Правила участия в программе',
+              title: "Правила участия в программе",
             })
           }>
           <Text style={styles.profileExitText}>
@@ -221,8 +217,8 @@ const ProfileScreen = ({
 
 const styles = StyleSheet.create({
   container: {
-    alignItems: 'flex-start',
-    justifyContent: 'flex-start',
+    alignItems: "flex-start",
+    justifyContent: "flex-start",
     padding: 16,
   },
   profileImage: {
@@ -233,11 +229,11 @@ const styles = StyleSheet.create({
   fioText: {
     marginTop: 3.5,
     marginLeft: 22,
-    color: '#111111',
+    color: "#111111",
     fontSize: 16,
   },
   editProfileImageButton: {
-    position: 'absolute',
+    position: "absolute",
     zIndex: 99,
     bottom: 6,
     left: 60,
@@ -247,26 +243,26 @@ const styles = StyleSheet.create({
     height: 24,
   },
   spinnerWrapper: {
-    position: 'absolute',
-    alignItems: 'center',
-    justifyContent: 'center',
+    position: "absolute",
+    alignItems: "center",
+    justifyContent: "center",
   },
   noImageWrapper: {
     width: 80,
     height: 80,
-    alignItems: 'center',
-    justifyContent: 'center',
-    backgroundColor: '#DEE0E5',
+    alignItems: "center",
+    justifyContent: "center",
+    backgroundColor: "#DEE0E5",
     borderRadius: 40,
   },
   noImageText: {
-    color: '#747E90',
+    color: "#747E90",
     fontFamily: Fonts.DisplayRegular,
     fontSize: 24,
   },
   text: {
     marginTop: 10,
-    color: '#111111',
+    color: "#111111",
     fontFamily: Fonts.TextLight,
   },
   splitLine2: {
@@ -280,12 +276,12 @@ const styles = StyleSheet.create({
   editProfileText: {
     marginTop: 5,
     marginLeft: 22,
-    color: '#747E90',
+    color: "#747E90",
     fontFamily: Fonts.DisplayLight,
     fontSize: 14,
   },
   profileDataWrapper: {
-    width: '100%',
+    width: "100%",
     marginBottom: 12,
   },
   profileExitButton: {
@@ -294,7 +290,7 @@ const styles = StyleSheet.create({
     fontSize: 14,
   },
   profileExitText: {
-    color: '#747E90',
+    color: "#747E90",
     fontFamily: Fonts.DisplayLight,
     fontSize: 14,
   },
@@ -314,7 +310,7 @@ const styles = StyleSheet.create({
   },
 });
 
-export default connect(({profile}) => ({profile}), {
+export default connect(({ profile }) => ({ profile }), {
   logoutProfile: shared.actions.logout,
   editProfile: shared.actions.editProfile,
   setError: shared.actions.error,

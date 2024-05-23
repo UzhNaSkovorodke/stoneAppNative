@@ -1,83 +1,77 @@
-import React, {useEffect} from 'react';
-import {
-  Image,
-  LogBox,
-  StyleSheet,
-  Text,
-  TouchableOpacity,
-  View,
-} from 'react-native';
+import React, { useEffect } from "react";
+import { Image, LogBox, StyleSheet, Text, TouchableOpacity, View } from "react-native";
 
-import AppealsIcon from '../../assets/oldImg/Appeals.png';
-import BackArrowIcon from '../../assets/oldImg/BackArrow.png';
-import EstateIcon from '../../assets/oldImg/Estate.png';
-import Filter from '../../assets/oldImg/Filter.png';
-import HomeIcon from '../../assets/oldImg/Home.png';
-import ProfileIcon from '../../assets/oldImg/Profile.png';
+import AppealsIcon from "../../assets/oldImg/Appeals.png";
+import BackArrowIcon from "../../assets/oldImg/BackArrow.png";
+import EstateIcon from "../../assets/oldImg/Estate.png";
+import Filter from "../../assets/oldImg/Filter.png";
+import HomeIcon from "../../assets/oldImg/Home.png";
+import ProfileIcon from "../../assets/oldImg/Profile.png";
 
-import AdditionalServicesScreen from '../screens/AdditionalServicesScreen';
-import AppealCreateScreen from '../screens/Appeals/AppealCreateScreen';
-import AppealsFilterScreen from '../screens/Appeals/AppealsFilterScreen';
-import AppealsScreen from '../screens/Appeals/AppealsScreen';
-import EventAppealScreen from '../screens/Appeals/EventAppealScreen';
-import MyEventChangeProfileAppealScreen from '../screens/Appeals/MyEventChangeProfileAppealScreen';
-import MyEventManagementCompanyAppealScreen from '../screens/Appeals/MyEventManagementCompanyAppealScreen';
-import MyEventsGuestPassOrderScreen from '../screens/Appeals/MyEventsGuestPassOrderScreen';
-import MyEventsTaxiPassOrderScreen from '../screens/Appeals/MyEventsTaxiPassOrderScreen';
-import BillPaymentScreen from '../screens/BillPaymentScreen';
-import CreateEventBuildingDeliveryPassScreen from '../screens/CreateEventBuildingDeliveryPassScreen';
-import CreateEventDeliveryPassScreen from '../screens/CreateEventDeliveryPassScreen';
-import CreateEventGuestPassOrderScreen from '../screens/CreateEventGuestPassOrderScreen';
-import CreateEventLargeSizeDeliveryPassScreen from '../screens/CreateEventLargeSizeDeliveryPassScreen';
-import CreateEventTaxiPassOrderScreen from '../screens/CreateEventTaxiPassOrderScreen';
-import DocumentsScreen from '../screens/DocumentsScreen';
-import EditProfileScreen from '../screens/EditUserScreen/EditProfileScreen';
-import PasswordChangeScreen from '../screens/EditUserScreen/PasswordChangeScreen';
-import PasswordRecoveryScreen from '../screens/EditUserScreen/PasswordRecoveryScreen';
-import FakeScreen from '../screens/FakeScreen/FakeScreen';
-import HomeScreen from '../screens/HomeScreen';
-import MyResidenceScreen from '../screens/MyResidenceScreen';
-import NewsScreen from '../screens/NewsScreen';
-import PaymentStatementScreen from '../screens/PaymentStatemetScreen';
-import PaymentsScreen from '../screens/PaymentsScreen';
-import PdfViewScreen from '../screens/PdfViewScreen';
-import ProfileScreen from '../screens/ProfileScreen';
-import ResidenceScreen from '../screens/ResidenceScreen';
-import SelectPassOrderScreen from '../screens/SelectPassOrderScreen';
-import GreetingScreen from '../screens/StartScreens/GreetingScreen';
-import PinCodeScreen from '../screens/StartScreens/PinCodeScreen';
-import RegistrationOrLoginScreen from '../screens/StartScreens/RegistrationOrLoginScreen';
-import SignInScreen from '../screens/StartScreens/SignInScreen';
-import SwitcherScreen from '../screens/StartScreens/SwitcherScreen';
-import UpdateAppScreen from '../screens/StartScreens/UpdateAppScreen';
-import WelcomeScreen from '../screens/StartScreens/WelcomeScreen';
+import AdditionalServicesScreen from "../screens/AdditionalServicesScreen";
+import AppealCreateScreen from "../screens/Appeals/AppealCreateScreen";
+import AppealsFilterScreen from "../screens/Appeals/AppealsFilterScreen";
+import AppealsScreen from "../screens/Appeals/AppealsScreen";
+import EventAppealScreen from "../screens/Appeals/EventAppealScreen";
+import MyEventChangeProfileAppealScreen from "../screens/Appeals/MyEventChangeProfileAppealScreen";
+import MyEventManagementCompanyAppealScreen from "../screens/Appeals/MyEventManagementCompanyAppealScreen";
+import MyEventsGuestPassOrderScreen from "../screens/Appeals/MyEventsGuestPassOrderScreen";
+import MyEventsTaxiPassOrderScreen from "../screens/Appeals/MyEventsTaxiPassOrderScreen";
+import BillPaymentScreen from "../screens/BillPaymentScreen";
+import CreateEventBuildingDeliveryPassScreen from "../screens/CreateEventBuildingDeliveryPassScreen";
+import CreateEventDeliveryPassScreen from "../screens/CreateEventDeliveryPassScreen";
+import CreateEventGuestPassOrderScreen from "../screens/CreateEventGuestPassOrderScreen";
+import CreateEventLargeSizeDeliveryPassScreen from "../screens/CreateEventLargeSizeDeliveryPassScreen";
+import CreateEventTaxiPassOrderScreen from "../screens/CreateEventTaxiPassOrderScreen";
+import DocumentsScreen from "../screens/DocumentsScreen";
+import EditProfileScreen from "../screens/EditUserScreen/EditProfileScreen";
+import PasswordChangeScreen from "../screens/EditUserScreen/PasswordChangeScreen";
+import PasswordRecoveryScreen from "../screens/EditUserScreen/PasswordRecoveryScreen";
+import FakeScreen from "../screens/FakeScreen/FakeScreen";
+import HomeScreen from "../screens/HomeScreen";
+import MyResidenceScreen from "../screens/MyResidenceScreen";
+import NewsScreen from "../screens/NewsScreen";
+import PaymentStatementScreen from "../screens/PaymentStatemetScreen";
+import PaymentsScreen from "../screens/PaymentsScreen";
+import PdfViewScreen from "../screens/PdfViewScreen";
+import ProfileScreen from "../screens/ProfileScreen";
+import ResidenceScreen from "../screens/ResidenceScreen";
+import SelectPassOrderScreen from "../screens/SelectPassOrderScreen";
+import GreetingScreen from "../screens/StartScreens/GreetingScreen";
+import PinCodeScreen from "../screens/StartScreens/PinCodeScreen";
+import RegistrationOrLoginScreen from "../screens/StartScreens/RegistrationOrLoginScreen";
+import SignInScreen from "../screens/StartScreens/SignInScreen";
+import SwitcherScreen from "../screens/StartScreens/SwitcherScreen";
+import UpdateAppScreen from "../screens/StartScreens/UpdateAppScreen";
+import WelcomeScreen from "../screens/StartScreens/WelcomeScreen";
 
-import BackImage from '../components/buttons/BackImage';
-import ItemSelectionScreen from '../components/custom/ItemSelectionScreen';
+import BackImage from "../components/buttons/BackImage";
+import ItemSelectionScreen from "../components/custom/ItemSelectionScreen";
 
-import {Fonts} from '../utils/Fonts';
-import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
-import {createNativeStackNavigator} from '@react-navigation/native-stack';
-import {TransitionPresets} from '@react-navigation/stack';
-import {useSafeAreaInsets} from 'react-native-safe-area-context';
+import { Fonts } from "../utils/Fonts";
+import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
+import { createNativeStackNavigator } from "@react-navigation/native-stack";
+import { TransitionPresets } from "@react-navigation/stack";
+import { useSafeAreaInsets } from "react-native-safe-area-context";
+import CheckDateScreen from "../screens/CheckDateScreen";
 
-const {tabBarLabelStyle, headerStyle, ...styles} = StyleSheet.create({
+const { tabBarLabelStyle, headerStyle, ...styles } = StyleSheet.create({
   tabBarLabelStyle: {
     fontFamily: Fonts.TextRegular,
     fontSize: 11,
   },
   headerStyle: {
-    height: Platform.OS === 'ios' ? 100 : 56,
-    backgroundColor: Platform.OS === 'ios' ? '#F7F7F9' : '#F7F7F9',
+    height: Platform.OS === "ios" ? 100 : 56,
+    backgroundColor: Platform.OS === "ios" ? "#F7F7F9" : "#F7F7F9",
     elevation: 0,
   },
   tabHeaderTitleStyle: {
-    color: '#111111',
+    color: "#111111",
     fontFamily: Fonts.DisplayBold,
     fontSize: 18,
   },
   appHeaderTitleStyle: {
-    color: '#111111',
+    color: "#111111",
     fontFamily: Fonts.DisplayRegular,
     fontSize: 14,
   },
@@ -88,7 +82,7 @@ const {tabBarLabelStyle, headerStyle, ...styles} = StyleSheet.create({
   estateIcon: {
     width: 24.62,
     height: 13.17,
-    transform: [{rotate: '-45deg'}],
+    transform: [{ rotate: "-45deg" }],
   },
   appealsIcon: {
     width: 20.1,
@@ -102,26 +96,26 @@ const {tabBarLabelStyle, headerStyle, ...styles} = StyleSheet.create({
     width: 20,
     height: 20,
     marginEnd: 20,
-    tintColor: '#111111',
+    tintColor: "#111111",
   },
   title: {
     marginLeft: 16,
-    color: '#111111',
+    color: "#111111",
     fontFamily: Fonts.DisplayBold,
     fontSize: 18,
   },
 
   headerContainer: {
-    alignItems: 'center',
-    justifyContent: 'flex-end',
+    alignItems: "center",
+    justifyContent: "flex-end",
   },
   headerTitle: {
     fontFamily: Fonts.DisplayRegular,
     fontSize: 14,
   },
   headerDescription: {
-    alignSelf: 'center',
-    color: '#747E90',
+    alignSelf: "center",
+    color: "#747E90",
     fontFamily: Fonts.DisplayCompactLight,
     fontSize: 12,
   },
@@ -132,7 +126,7 @@ const Stack = createNativeStackNavigator();
 function TabNavigator() {
   const Tab = createBottomTabNavigator();
 
-  const {bottom} = useSafeAreaInsets();
+  const { bottom } = useSafeAreaInsets();
   return (
     <Tab.Navigator
       initialRouteName="HomeScreen"
@@ -142,20 +136,20 @@ function TabNavigator() {
         // headerRight: NotificationsButton,
         headerStyle,
         headerTitleStyle: styles.tabHeaderTitleStyle,
-        tabBarActiveTintColor: '#101010',
-        tabBarInactiveTintColor: '#747E90',
+        tabBarActiveTintColor: "#101010",
+        tabBarInactiveTintColor: "#747E90",
         tabBarLabelStyle,
-        tabBarStyle: {paddingBottom: bottom + 4},
+        tabBarStyle: { paddingBottom: bottom + 4 },
         ...TransitionPresets.ScaleFromCenterAndroid,
       }}>
       <Tab.Screen
         name="HomeScreen"
         component={HomeScreen}
         options={{
-          title: '',
-          tabBarLabel: 'Главная',
-          tabBarIcon: ({color: tintColor}) => (
-            <Image style={[styles.homeIcon, {tintColor}]} source={HomeIcon} />
+          title: "",
+          tabBarLabel: "Главная",
+          tabBarIcon: ({ color: tintColor }) => (
+            <Image style={[styles.homeIcon, { tintColor }]} source={HomeIcon} />
           ),
         }}
       />
@@ -163,11 +157,11 @@ function TabNavigator() {
         name="ResidenceScreen"
         component={ResidenceScreen}
         options={{
-          title: 'Управление недвижимостью',
-          tabBarLabel: 'Недвижимость',
-          tabBarIcon: ({color: tintColor}) => (
+          title: "Управление недвижимостью",
+          tabBarLabel: "Недвижимость",
+          tabBarIcon: ({ color: tintColor }) => (
             <Image
-              style={[styles.estateIcon, {tintColor}]}
+              style={[styles.estateIcon, { tintColor }]}
               source={EstateIcon}
             />
           ),
@@ -176,19 +170,19 @@ function TabNavigator() {
       <Tab.Screen
         name="AppealsScreen"
         component={AppealsScreen}
-        options={({route: {params}, navigation: {navigate}}) => ({
-          title: 'Обращения',
-          tabBarLabel: 'Обращения',
-          tabBarIcon: ({color: tintColor}) => (
+        options={({ route: { params }, navigation: { navigate } }) => ({
+          title: "Обращения",
+          tabBarLabel: "Обращения",
+          tabBarIcon: ({ color: tintColor }) => (
             <Image
-              style={[styles.appealsIcon, {tintColor}]}
+              style={[styles.appealsIcon, { tintColor }]}
               source={AppealsIcon}
             />
           ),
           headerRight: () => (
             <TouchableOpacity
               onPress={() =>
-                navigate('AppealsFilterScreen', {
+                navigate("AppealsFilterScreen", {
                   filter: params?.filter || {},
                 })
               }>
@@ -201,11 +195,11 @@ function TabNavigator() {
         name="ProfileScreen"
         component={ProfileScreen}
         options={{
-          title: 'Профиль',
-          tabBarLabel: 'Профиль',
-          tabBarIcon: ({color: tintColor}) => (
+          title: "Профиль",
+          tabBarLabel: "Профиль",
+          tabBarIcon: ({ color: tintColor }) => (
             <Image
-              style={[styles.profileIcon, {tintColor}]}
+              style={[styles.profileIcon, { tintColor }]}
               source={ProfileIcon}
             />
           ),
@@ -217,7 +211,7 @@ function TabNavigator() {
 
 export default function AppNavigator() {
   useEffect(() => {
-    LogBox.ignoreLogs(['VirtualizedLists should never be nested']);
+    LogBox.ignoreLogs(["VirtualizedLists should never be nested"]);
   }, []);
 
   return (
@@ -230,173 +224,173 @@ export default function AppNavigator() {
         ),
         headerBackTitleVisible: false,
         headerStyle,
-        headerTitleAlign: 'center',
+        headerTitleAlign: "center",
         headerTitleStyle: styles.appHeaderTitleStyle,
         ...TransitionPresets.ScaleFromCenterAndroid,
       }}>
       <Stack.Screen
-        name={'TabNavigator'}
+        name={"TabNavigator"}
         component={TabNavigator}
-        options={{headerShown: false}}
+        options={{ headerShown: false }}
       />
       <Stack.Screen
-        name={'UpdateAppScreen'}
+        name={"UpdateAppScreen"}
         component={UpdateAppScreen}
-        options={{headerShown: false}}
+        options={{ headerShown: false }}
       />
       <Stack.Screen
-        name={'WelcomeScreen'}
+        name={"WelcomeScreen"}
         component={WelcomeScreen}
-        options={{headerShown: false}}
+        options={{ headerShown: false }}
       />
       <Stack.Screen
-        name={'SwitcherScreen'}
+        name={"SwitcherScreen"}
         component={SwitcherScreen}
-        options={{headerShown: false}}
+        options={{ headerShown: false }}
       />
       <Stack.Screen
-        name={'RegistrationOrLoginScreen'}
+        name={"RegistrationOrLoginScreen"}
         component={RegistrationOrLoginScreen}
-        options={{headerShown: false}}
+        options={{ headerShown: false }}
       />
       <Stack.Screen
-        name={'SignInScreen'}
+        name={"SignInScreen"}
         component={SignInScreen}
-        options={{headerShown: false}}
+        options={{ headerShown: false }}
       />
       <Stack.Screen
-        name={'GreetingScreen'}
+        name={"GreetingScreen"}
         component={GreetingScreen}
-        options={{headerShown: false}}
+        options={{ headerShown: false }}
       />
       <Stack.Screen
-        name={'PinCodeScreen'}
+        name={"PinCodeScreen"}
         component={PinCodeScreen}
-        options={{headerShown: false}}
+        options={{ headerShown: false }}
       />
 
       <Stack.Screen
-        name={'NewsScreen'}
+        name={"NewsScreen"}
         component={NewsScreen}
-        options={({route}) => ({
+        options={({ route }) => ({
           title: route?.params?.title,
           headerTitleContainerStyle: {
-            width: '70%',
-            alignItems: 'center',
+            width: "70%",
+            alignItems: "center",
           },
         })}
       />
       <Stack.Screen
-        name={'PdfViewScreen'}
+        name={"PdfViewScreen"}
         component={PdfViewScreen}
-        options={({route}) => ({title: route.params.title})}
+        options={({ route }) => ({ title: route.params.title })}
       />
       <Stack.Screen
-        name={'EditProfileScreen'}
+        name={"EditProfileScreen"}
         component={EditProfileScreen}
-        options={{title: 'Изменить профиль'}}
+        options={{ title: "Изменить профиль" }}
       />
       <Stack.Screen
-        name={'PasswordChangeScreen'}
+        name={"PasswordChangeScreen"}
         component={PasswordChangeScreen}
-        options={{title: 'Изменить пароль'}}
+        options={{ title: "Изменить пароль" }}
       />
       <Stack.Screen
-        name={'PasswordRecoveryScreen'}
+        name={"PasswordRecoveryScreen"}
         component={PasswordRecoveryScreen}
-        options={{title: 'Восстановление пароля'}}
+        options={{ title: "Восстановление пароля" }}
       />
       <Stack.Screen
-        name={'AppealCreateScreen'}
+        name={"AppealCreateScreen"}
         component={AppealCreateScreen}
-        options={{title: 'Создать обращение'}}
+        options={{ title: "Создать обращение" }}
       />
       <Stack.Screen
-        name={'EventAppealScreen'}
+        name={"EventAppealScreen"}
         component={EventAppealScreen}
-        options={({route}) => ({title: route.params.title})}
+        options={({ route }) => ({ title: route.params.title })}
       />
       <Stack.Screen
-        name={'SelectPassOrderScreen'}
+        name={"SelectPassOrderScreen"}
         component={SelectPassOrderScreen}
-        options={{title: 'Заказать пропуск'}}
+        options={{ title: "Заказать пропуск" }}
       />
-      <Stack.Screen name={'FakeScreen'} component={FakeScreen} />
+      <Stack.Screen name={"FakeScreen"} component={FakeScreen} />
       <Stack.Screen
-        name={'ItemSelectionScreen'}
+        name={"ItemSelectionScreen"}
         component={ItemSelectionScreen}
-        options={({route}) => ({title: route.params.title})}
+        options={({ route }) => ({ title: route.params.title })}
       />
       <Stack.Screen
-        name={'CreateEventDeliveryPassScreen'}
+        name={"CreateEventDeliveryPassScreen"}
         component={CreateEventDeliveryPassScreen}
-        options={{title: 'Заказать пропуск для доставки'}}
+        options={{ title: "Заказать пропуск для доставки" }}
       />
 
       <Stack.Screen
-        name={'CreateEventTaxiPassOrderScreen'}
+        name={"CreateEventTaxiPassOrderScreen"}
         component={CreateEventTaxiPassOrderScreen}
-        options={{title: 'Заказать пропуск для такси'}}
+        options={{ title: "Заказать пропуск для такси" }}
       />
       <Stack.Screen
-        name={'CreateEventGuestPassOrderScreen'}
+        name={"CreateEventGuestPassOrderScreen"}
         component={CreateEventGuestPassOrderScreen}
-        options={{title: 'Заказать пропуск для гостя'}}
+        options={{ title: "Заказать пропуск для гостя" }}
       />
       <Stack.Screen
-        name={'CreateEventBuildingDeliveryPassScreen'}
+        name={"CreateEventBuildingDeliveryPassScreen"}
         component={CreateEventBuildingDeliveryPassScreen}
-        options={{title: 'Заказать пропуск для стройматериалов'}}
+        options={{ title: "Заказать пропуск для стройматериалов" }}
       />
       <Stack.Screen
-        name={'CreateEventLargeSizeDeliveryPassScreen'}
+        name={"CreateEventLargeSizeDeliveryPassScreen"}
         component={CreateEventLargeSizeDeliveryPassScreen}
-        options={{title: 'Заказать пропуск для крупногабаритных грузов'}}
+        options={{ title: "Заказать пропуск для крупногабаритных грузов" }}
       />
       <Stack.Screen
-        name={'MyEventsGuestPassOrderScreen'}
+        name={"MyEventsGuestPassOrderScreen"}
         component={MyEventsGuestPassOrderScreen}
-        options={{title: 'Мои события'}}
+        options={{ title: "Мои события" }}
       />
       <Stack.Screen
-        name={'MyEventsTaxiPassOrderScreen'}
+        name={"MyEventsTaxiPassOrderScreen"}
         component={MyEventsTaxiPassOrderScreen}
-        options={{title: 'Мои события'}}
+        options={{ title: "Мои события" }}
       />
       <Stack.Screen
-        name={'MyEventChangeProfileAppealScreen'}
+        name={"MyEventChangeProfileAppealScreen"}
         component={MyEventChangeProfileAppealScreen}
-        options={{title: 'Мои события'}}
+        options={{ title: "Мои события" }}
       />
       <Stack.Screen
-        name={'MyEventManagementCompanyAppealScreen'}
+        name={"MyEventManagementCompanyAppealScreen"}
         component={MyEventManagementCompanyAppealScreen}
         update
-        options={{title: 'Мои события'}}
+        options={{ title: "Мои события" }}
       />
       <Stack.Screen
-        name={'MyResidenceScreen'}
+        name={"MyResidenceScreen"}
         component={MyResidenceScreen}
-        options={({route}) => ({
-          title: route.params ? route.params.data.projectName : '',
+        options={({ route }) => ({
+          title: route.params ? route.params.data.projectName : "",
         })}
       />
       <Stack.Screen
-        name={'PaymentsScreen'}
+        name={"PaymentsScreen"}
         component={PaymentsScreen}
-        options={({route: {params}, navigation}) => ({
-          title: 'Счета',
+        options={({ route: { params }, navigation }) => ({
+          title: "Счета",
         })}
       />
       <Stack.Screen
-        name={'BillPaymentScreen'}
+        name={"BillPaymentScreen"}
         component={BillPaymentScreen}
-        options={{title: 'Оплата услуги'}}
+        options={{ title: "Оплата услуги" }}
       />
       <Stack.Screen
-        name={'PaymentStatementScreen'}
+        name={"PaymentStatementScreen"}
         component={PaymentStatementScreen}
-        options={({route}) => ({
+        options={({ route }) => ({
           headerTitle: () => (
             <View style={styles.headerContainer}>
               <Text style={styles.headerTitle}>Выписка по л/с</Text>
@@ -408,19 +402,24 @@ export default function AppNavigator() {
         })}
       />
       <Stack.Screen
-        name={'AppealsFilterScreen'}
+        name={"AppealsFilterScreen"}
         component={AppealsFilterScreen}
-        options={{title: 'Фильтры'}}
+        options={{ title: "Фильтры" }}
       />
       <Stack.Screen
-        name={'AdditionalServicesScreen'}
+        name={"AdditionalServicesScreen"}
         component={AdditionalServicesScreen}
-        options={{title: 'Дополнительные услуги'}}
+        options={{ title: "Дополнительные услуги" }}
       />
       <Stack.Screen
-        name={'DocumentsScreen'}
+        name={"DocumentsScreen"}
         component={DocumentsScreen}
-        options={{title: 'Документы'}}
+        options={{ title: "Документы" }}
+      />
+      <Stack.Screen
+        name={"CheckDateScreen"}
+        component={CheckDateScreen}
+        options={{ title: "Выбор даты" }}
       />
     </Stack.Navigator>
   );

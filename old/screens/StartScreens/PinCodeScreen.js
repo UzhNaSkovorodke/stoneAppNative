@@ -1,25 +1,17 @@
-import React from 'react';
-import {
-  BackHandler,
-  Dimensions,
-  Image,
-  StyleSheet,
-  Text,
-  TouchableWithoutFeedback,
-  View,
-} from 'react-native';
-import {connect} from 'react-redux';
+import React from "react";
+import { BackHandler, Dimensions, Image, StyleSheet, Text, TouchableWithoutFeedback, View } from "react-native";
+import { connect } from "react-redux";
 
-import DeleteImage from '../../../assets/oldImg/DeleteButton.png';
-import FaceIdIcon from '../../../assets/oldImg/FaceId.png';
-import TouchIdIcon from '../../../assets/oldImg/TouchIdIcon.png';
-import shared from '../../../store/index';
-import NumButton from '../../components/buttons/NumButton';
-import {Fonts} from '../../utils/Fonts';
-import TouchId from 'react-native-touch-id';
-import RNSecureStorage, {ACCESSIBLE} from 'rn-secure-storage';
+import DeleteImage from "../../../assets/oldImg/DeleteButton.png";
+import FaceIdIcon from "../../../assets/oldImg/FaceId.png";
+import TouchIdIcon from "../../../assets/oldImg/TouchIdIcon.png";
+import shared from "../../../store/index";
+import NumButton from "../../components/buttons/NumButton";
+import { Fonts } from "../../utils/Fonts";
+import TouchId from "react-native-touch-id";
+import RNSecureStorage, { ACCESSIBLE } from "rn-secure-storage";
 
-const {width} = Dimensions.get('window');
+const { width } = Dimensions.get("window");
 const buttonSize = width / 5.2;
 const spaceTop = width / 25;
 
@@ -35,23 +27,23 @@ const styles = StyleSheet.create({
   },
   disabledPin: {
     borderWidth: 1,
-    borderColor: '#707070',
+    borderColor: "#707070",
   },
   selectedPin: {
-    borderColor: '#747E90',
-    backgroundColor: '#747E90',
+    borderColor: "#747E90",
+    backgroundColor: "#747E90",
   },
   textDescription: {
-    width: '60%',
+    width: "60%",
     marginTop: 20,
     marginBottom: 10,
-    color: '#747E90',
+    color: "#747E90",
     fontFamily: Fonts.TextLight,
     fontSize: 12,
-    textAlign: 'center',
+    textAlign: "center",
   },
   textTitle: {
-    color: '#747E90',
+    color: "#747E90",
     fontFamily: Fonts.TextLight,
     fontSize: 16,
   },
@@ -59,35 +51,35 @@ const styles = StyleSheet.create({
     width: buttonSize,
     height: buttonSize,
     borderWidth: 1.3,
-    borderColor: '#747E90',
+    borderColor: "#747E90",
     borderRadius: 50,
-    textAlign: 'center',
+    textAlign: "center",
   },
   blueButtonNumber: {
     marginTop: 3,
-    color: '#747E90',
+    color: "#747E90",
     fontSize: 22,
-    textAlign: 'center',
+    textAlign: "center",
   },
   blueButtonText: {
     marginTop: -3,
-    color: '#747E90',
+    color: "#747E90",
     fontSize: 10,
-    textAlign: 'center',
+    textAlign: "center",
   },
   buttonBlueColumn: {
-    flexDirection: 'row',
+    flexDirection: "row",
     marginTop: spaceTop,
   },
   deleteImage: {
     width: buttonSize * 0.8,
     height: buttonSize * 0.8,
-    alignSelf: 'center',
-    tintColor: '#747E90',
+    alignSelf: "center",
+    tintColor: "#747E90",
   },
   lostButtonText: {
-    alignSelf: 'center',
-    color: '#747E90',
+    alignSelf: "center",
+    color: "#747E90",
     fontSize: buttonSize * 0.25,
   },
   touchIdStyles: {
@@ -99,22 +91,22 @@ const styles = StyleSheet.create({
     height: buttonSize * 0.6,
   },
   pins: {
-    width: '25%',
-    flexDirection: 'row',
-    justifyContent: 'space-between',
+    width: "25%",
+    flexDirection: "row",
+    justifyContent: "space-between",
     marginTop: 20,
   },
 });
 
 class PinCodeScreen extends React.Component {
   optionalConfigObject = {
-    title: 'Необходима Авторизация', // Android
-    imageColor: '#747E90', // Android
-    imageErrorColor: '#ff0000', // Android
-    sensorDescription: 'Коснитесь Сенсора', // Android
-    sensorErrorDescription: 'Failed', // Android
-    cancelText: 'Cancel', // Android
-    fallbackLabel: '', // iOS (if empty, then label is hidden)
+    title: "Необходима Авторизация", // Android
+    imageColor: "#747E90", // Android
+    imageErrorColor: "#ff0000", // Android
+    sensorDescription: "Коснитесь Сенсора", // Android
+    sensorErrorDescription: "Failed", // Android
+    cancelText: "Cancel", // Android
+    fallbackLabel: "", // iOS (if empty, then label is hidden)
     unifiedErrors: false, // use unified error messages (default false)
     passcodeFallback: false, // iOS - allows the device to fall back to using the passcode, if faceid/touch is not available. this does not mean that if touchid/faceid fails the first few times it will revert to passcode, rather that if the former are not enrolled, then it will use the passcode.
   };
@@ -125,13 +117,13 @@ class PinCodeScreen extends React.Component {
     this.state = {
       countOfEnteredPins: 0,
       currentAttempt: 0,
-      currentPassword: '',
+      currentPassword: "",
       isFaceId: false,
       isTouchId: false,
-      loadedPassword: '',
+      loadedPassword: "",
       maxAttempts: 10,
-      modePinCode: '',
-      secondPassword: '',
+      modePinCode: "",
+      secondPassword: "",
       touchIdAttempts: 0,
     };
     this.handleBackButton = this.handleBackButton.bind(this);
@@ -143,39 +135,39 @@ class PinCodeScreen extends React.Component {
 
   componentDidMount() {
     //BackHandler.addEventListener('hardwareBackPress', this.handleBackButton);
-    RNSecureStorage.exist('PinCode').then(isHas => {
+    RNSecureStorage.exist("PinCode").then(isHas => {
       if (isHas) {
         TouchId.isSupported()
           .then(type => {
-            if (type === 'TouchID' || type === true) {
-              this.setState({isTouchId: true}, () => this.onTouchIdPressed());
-            } else if (type === 'FaceID') {
-              this.setState({isFaceId: true}, () => this.onTouchIdPressed());
+            if (type === "TouchID" || type === true) {
+              this.setState({ isTouchId: true }, () => this.onTouchIdPressed());
+            } else if (type === "FaceID") {
+              this.setState({ isFaceId: true }, () => this.onTouchIdPressed());
             }
           })
           .catch(e => console.log(e));
 
-        RNSecureStorage.getItem('PinCode').then(res => {
-          this.setState({modePinCode: 'enter', loadedPassword: res});
+        RNSecureStorage.getItem("PinCode").then(res => {
+          this.setState({ modePinCode: "enter", loadedPassword: res });
           this.props.navigation.setParams({
-            header: 'enter',
+            header: "enter",
           });
         });
       } else {
-        this.setState({modePinCode: 'create'});
+        this.setState({ modePinCode: "create" });
         this.props.navigation.setParams({
-          header: 'create',
+          header: "create",
         });
       }
     });
   }
 
   componentWillUnmount() {
-    BackHandler.removeEventListener('hardwareBackPress', this.handleBackButton);
+    BackHandler.removeEventListener("hardwareBackPress", this.handleBackButton);
   }
 
   firstCreatePassword = index => {
-    const {countOfEnteredPins, currentPassword} = this.state;
+    const { countOfEnteredPins, currentPassword } = this.state;
 
     this.setState(
       {
@@ -184,12 +176,12 @@ class PinCodeScreen extends React.Component {
       },
       () =>
         this.state.currentPassword.length === 4 &&
-        setTimeout(() => this.setState({countOfEnteredPins: 0}), 50),
+        setTimeout(() => this.setState({ countOfEnteredPins: 0 }), 50),
     ); // Задержка перед очисткой, Импорт state не менять, т.к. метод асинхронный
   };
 
   secondCreatePassword = index => {
-    const {secondPassword} = this.state;
+    const { secondPassword } = this.state;
 
     this.setState(
       {
@@ -201,32 +193,32 @@ class PinCodeScreen extends React.Component {
   };
 
   validateCreatedPin = async () => {
-    const {currentPassword, secondPassword} = this.state;
-    const {setError} = this.props;
+    const { currentPassword, secondPassword } = this.state;
+    const { setError } = this.props;
 
     if (secondPassword === currentPassword) {
-      RNSecureStorage.setItem('PinCode', currentPassword, {
+      RNSecureStorage.setItem("PinCode", currentPassword, {
         accessible: ACCESSIBLE.WHEN_UNLOCKED,
       });
       this.onSuccess();
     } else {
       this.setState({
-        currentPassword: '',
-        secondPassword: '',
+        currentPassword: "",
+        secondPassword: "",
         countOfEnteredPins: 0,
       });
-      setError([{message: 'Вы ввели неверный пароль'}]);
+      setError([{ message: "Вы ввели неверный пароль" }]);
     }
   };
 
   validateEnteredPin = async () => {
-    let {currentAttempt} = this.state;
-    const {currentPassword, loadedPassword, maxAttempts} = this.state;
-    const {setError} = this.props;
+    let { currentAttempt } = this.state;
+    const { currentPassword, loadedPassword, maxAttempts } = this.state;
+    const { setError } = this.props;
 
     if (currentPassword === loadedPassword) {
       this.onSuccess();
-      this.setState({currentPassword: ''});
+      this.setState({ currentPassword: "" });
     } else {
       currentAttempt += 1;
 
@@ -235,40 +227,40 @@ class PinCodeScreen extends React.Component {
         return;
       }
 
-      this.setState({currentPassword: '', currentAttempt});
-      setError([{message: 'Вы ввели неверный пароль'}]);
+      this.setState({ currentPassword: "", currentAttempt });
+      setError([{ message: "Вы ввели неверный пароль" }]);
     }
   };
 
   onFail = () => {
-    const {navigation} = this.props;
+    const { navigation } = this.props;
 
-    RNSecureStorage.removeItem('login');
-    RNSecureStorage.removeItem('password');
-    RNSecureStorage.removeItem('PinCode');
+    RNSecureStorage.removeItem("login");
+    RNSecureStorage.removeItem("password");
+    RNSecureStorage.removeItem("PinCode");
 
-    navigation.navigate('SignInScreen');
+    navigation.navigate("SignInScreen");
   };
 
   onSuccess = () => {
-    const {route, navigation} = this.props;
-    const {fio} = route.params;
-    BackHandler.removeEventListener('hardwareBackPress', this.handleBackButton);
-    navigation.navigate('GreetingScreen', {fio});
+    const { route, navigation } = this.props;
+    const { fio } = route.params;
+    BackHandler.removeEventListener("hardwareBackPress", this.handleBackButton);
+    navigation.navigate("GreetingScreen", { fio });
   };
 
   numButtonOnPress = index => {
-    const {modePinCode} = this.state;
-    if (modePinCode === 'create') {
+    const { modePinCode } = this.state;
+    if (modePinCode === "create") {
       this.createPinOnPressButton(index);
     }
-    if (modePinCode === 'enter') {
+    if (modePinCode === "enter") {
       this.enterPinOnPressButton(index);
     }
   };
 
   enterPinOnPressButton = index => {
-    const {countOfEnteredPins, currentPassword} = this.state;
+    const { countOfEnteredPins, currentPassword } = this.state;
     this.setState(
       {
         countOfEnteredPins: countOfEnteredPins + 1,
@@ -279,7 +271,7 @@ class PinCodeScreen extends React.Component {
           return;
         }
 
-        setTimeout(() => this.setState({countOfEnteredPins: 0}), 50);
+        setTimeout(() => this.setState({ countOfEnteredPins: 0 }), 50);
         this.validateEnteredPin();
       },
     );
@@ -291,11 +283,11 @@ class PinCodeScreen extends React.Component {
       : this.firstCreatePassword(index);
 
   onTouchIdPressed = () => {
-    const {isTouchId, isFaceId} = this.state;
-    let {touchIdAttempts} = this.state;
+    const { isTouchId, isFaceId } = this.state;
+    let { touchIdAttempts } = this.state;
 
     if (isFaceId) {
-      TouchId.authenticate('Войти', this.optionalConfigObject)
+      TouchId.authenticate("Войти", this.optionalConfigObject)
         .then(() => this.onSuccess())
         .catch(() => {
           touchIdAttempts += 1;
@@ -303,10 +295,10 @@ class PinCodeScreen extends React.Component {
             return;
           }
 
-          this.setState({touchIdAttempts, isFaceId: false});
+          this.setState({ touchIdAttempts, isFaceId: false });
         });
     } else if (isTouchId) {
-      TouchId.authenticate('Войти', this.optionalConfigObject)
+      TouchId.authenticate("Войти", this.optionalConfigObject)
         .then(() => this.onSuccess())
         .catch(() => {
           touchIdAttempts += 1;
@@ -314,25 +306,25 @@ class PinCodeScreen extends React.Component {
           if (touchIdAttempts >= 3) {
             return;
           }
-          this.setState({touchIdAttempts, isTouchId: false});
+          this.setState({ touchIdAttempts, isTouchId: false });
         });
     }
   };
 
   removeButtonOnPress = () => {
-    const {currentPassword, secondPassword, countOfEnteredPins} = this.state;
+    const { currentPassword, secondPassword, countOfEnteredPins } = this.state;
 
     if (currentPassword.length === 4) {
       const removedStr = secondPassword.slice(0, -1);
 
       this.setState({
-        secondPassword: removedStr !== undefined ? removedStr : '',
+        secondPassword: removedStr !== undefined ? removedStr : "",
       });
     } else {
       const removedStr = currentPassword.slice(0, -1);
 
       this.setState({
-        currentPassword: removedStr !== undefined ? removedStr : '',
+        currentPassword: removedStr !== undefined ? removedStr : "",
       });
     }
 
@@ -342,7 +334,7 @@ class PinCodeScreen extends React.Component {
   };
 
   renderPasswordCircles = () => {
-    const {countOfEnteredPins} = this.state;
+    const { countOfEnteredPins } = this.state;
     const renderedPins = [];
 
     for (let i = 0; i < 4; i++) {
@@ -362,7 +354,8 @@ class PinCodeScreen extends React.Component {
 
   renderButtons = () => (
     <>
-      <View style={[styles.buttonBlueColumn, {marginTop: 0}]}>
+
+      <View style={[styles.buttonBlueColumn, { marginTop: 0 }]}>
         <NumButton numValue="1" wordValue="" onPress={this.numButtonOnPress} />
         <NumButton
           numValue="2"
@@ -413,13 +406,13 @@ class PinCodeScreen extends React.Component {
       </View>
 
       <View style={styles.buttonBlueColumn}>
-        <View style={{flex: 1, justifyContent: 'center'}}>
+        <View style={{ flex: 1, justifyContent: "center" }}>
           <TouchableWithoutFeedback onPress={this.onFail}>
             <Text style={styles.lostButtonText}>Забыли?</Text>
           </TouchableWithoutFeedback>
         </View>
         <NumButton numValue="0" wordValue="" onPress={this.numButtonOnPress} />
-        <View style={{flex: 1}}>
+        <View style={{ flex: 1 }}>
           <TouchableWithoutFeedback onPress={this.removeButtonOnPress}>
             <Image
               resizeMode="contain"
@@ -433,9 +426,9 @@ class PinCodeScreen extends React.Component {
   );
 
   renderHeader = () => {
-    const {modePinCode, currentPassword} = this.state;
+    const { modePinCode, currentPassword } = this.state;
 
-    return modePinCode === 'enter' ? (
+    return modePinCode === "enter" ? (
       <>
         <Text style={styles.textTitle}>Введите PIN-код</Text>
         {this.renderPasswordCircles()}
@@ -445,8 +438,8 @@ class PinCodeScreen extends React.Component {
       <>
         <Text style={styles.textTitle}>
           {currentPassword.length === 4
-            ? 'Повторите пароль'
-            : 'Придумайте PIN-код'}
+            ? "Повторите пароль"
+            : "Придумайте PIN-код"}
         </Text>
         {this.renderPasswordCircles()}
         <Text style={styles.textDescription} numberOfLines={2}>
@@ -457,13 +450,13 @@ class PinCodeScreen extends React.Component {
   };
 
   renderBottom = () => {
-    const {modePinCode, isFaceId, isTouchId} = this.state;
+    const { modePinCode, isFaceId, isTouchId } = this.state;
 
     return (
       <>
-        {modePinCode === 'enter' && (
-          <View style={{flexDirection: 'row'}}>
-            <View style={{flex: 1, alignItems: 'center'}}>
+        {modePinCode === "enter" && (
+          <View style={{ flexDirection: "row" }}>
+            <View style={{ flex: 1, alignItems: "center" }}>
               <TouchableWithoutFeedback onPress={this.onTouchIdPressed}>
                 <Image
                   style={styles.touchIdStyles}
@@ -471,8 +464,8 @@ class PinCodeScreen extends React.Component {
                 />
               </TouchableWithoutFeedback>
             </View>
-            <View style={{flex: 1}} />
-            <View style={{flex: 1, alignItems: 'center'}}>
+            <View style={{ flex: 1 }} />
+            <View style={{ flex: 1, alignItems: "center" }}>
               <TouchableWithoutFeedback onPress={this.onTouchIdPressed}>
                 <Image
                   style={styles.faceIdStyles}
@@ -487,16 +480,16 @@ class PinCodeScreen extends React.Component {
   };
 
   render() {
-    const {header} = this.props.route.params;
+    const { header } = this.props.route.params;
 
     return header === undefined ? (
       <View />
     ) : (
       <View style={styles.mainContainer}>
-        <View style={{flex: 2, alignItems: 'center', justifyContent: 'center'}}>
+        <View style={{ flex: 2, alignItems: "center", justifyContent: "center" }}>
           {this.renderHeader()}
         </View>
-        <View style={{flex: 5, alignItems: 'center', justifyContent: 'center'}}>
+        <View style={{ flex: 5, alignItems: "center", justifyContent: "center" }}>
           {this.renderButtons()}
           {this.renderBottom()}
         </View>
