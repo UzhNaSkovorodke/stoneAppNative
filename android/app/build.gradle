@@ -76,11 +76,11 @@ android {
 
     namespace "com.stoneappproject"
     defaultConfig {
-        applicationId "com.stoneappproject"
+        applicationId "ru.stonehedge.mlk"
         minSdkVersion rootProject.ext.minSdkVersion
         targetSdkVersion rootProject.ext.targetSdkVersion
-        versionCode 1
-        versionName "1.0"
+         versionCode 79
+         versionName "1.7.0"
     }
     signingConfigs {
         debug {

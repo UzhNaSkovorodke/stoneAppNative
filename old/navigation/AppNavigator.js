@@ -167,6 +167,7 @@ function TabNavigator() {
           ),
         }}
       />
+
       <Tab.Screen
         name="AppealsScreen"
         component={AppealsScreen}
@@ -205,6 +206,15 @@ function TabNavigator() {
           ),
         }}
       />
+      {/*<Tab.Screen*/}
+      {/*  name="FakeScreen"*/}
+      {/*  component={FakeScreen}*/}
+      {/*  options={{*/}
+      {/*    title: "Fake",*/}
+      {/*    tabBarLabel: "Fake",*/}
+
+      {/*  }}*/}
+      {/*/>*/}
     </Tab.Navigator>
   );
 }

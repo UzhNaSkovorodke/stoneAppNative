@@ -1,3 +1,4 @@
+import moment from "moment";
 import React, { Component } from "react";
 import {
   Dimensions,
@@ -10,22 +11,21 @@ import {
   TouchableOpacity,
   View,
 } from "react-native";
+import { DocumentPicker, DocumentPickerUtil } from "react-native-document-picker";
 import RNFS from "react-native-fs";
 import ImagePicker from "react-native-image-picker";
-// import ReactNativePickerModule from 'react-native-picker-module';
+import ReactNativePickerModule from "react-native-picker-module";
 import { connect } from "react-redux";
+import shared from "../../../store/index";
 
+import ClipIcon from "../../../assets/oldImg/Clip.png";
+import SendIcon from "../../../assets/oldImg/Send.png";
+import reportError from "../../utils/ReportError";
+import { downloadFile } from "../../utils/Utils";
 import ImageContainer from "./ImageContainer";
 import ModalRoot, { openAgreementModal } from "./RootModalsComponent";
 import SpinLoader from "./Spinner";
 import SplitLine from "./SplitLine";
-
-import ClipIcon from "../../../assets/oldImg/Clip.png";
-import SendIcon from "../../../assets/oldImg/Send.png";
-import shared from "../../../store/index.js";
-import reportError from "../../utils/ReportError";
-import { downloadFile } from "../../utils/Utils";
-import moment from "moment";
 
 const styles = StyleSheet.create({
   profileImage: {
@@ -92,7 +92,7 @@ const styles = StyleSheet.create({
     tintColor: "#111111",
     transform: [{ rotate: "45deg" }],
   },
-  splinLoader: {
+  spinloader: {
     width: 20,
     height: 20,
     tintColor: "#111111",
@@ -141,8 +141,7 @@ const styles = StyleSheet.create({
     borderBottomColor: "#8E97A8",
   },
   input: {
-    top: Platform.OS === "ios" ? -4 : 0,
-    left: 2,
+    top: Platform.OS === "ios" ? -4 : 10,
     width: "100%",
   },
   disabledSendButton: {
@@ -310,58 +309,58 @@ class Chat extends Component {
     const { data, needUpdate } = this.state;
     const { setError } = this.props;
 
-    // DocumentPicker.show(
-    //     {
-    //         filetype: [DocumentPickerUtil.allFiles()],
-    //     },
-    //     (error, res) => {
-    //         if (error || res.uri === null) {
-    //             return
-    //         }
-    //
-    //         if (this.checkContains(res.uri)) {
-    //             setError([{ message: 'Данный файл уже загружен.' }])
-    //             return
-    //         }
-    //         if (res.fileSize > 10000000) {
-    //             setError([{ message: 'Размер файла не должен превышать 10 МБ.' }])
-    //             return
-    //         }
-    //
-    //         let dataNew = {}
-    //
-    //         const fileType = this.getFileType(res.fileName)
-    //
-    //         if (fileType === 'image') {
-    //             dataNew = {
-    //                 fileUri: res.uri,
-    //                 fileName: res.fileName,
-    //                 isImage: true,
-    //                 key: data.length + 1,
-    //             }
-    //         } else if (fileType === 'pdf') {
-    //             dataNew = {
-    //                 fileUri: res.uri,
-    //                 fileName: res.fileName,
-    //                 isPdf: true,
-    //                 key: data.length + 1,
-    //             }
-    //         } else if (fileType !== '.exe') {
-    //             dataNew = {
-    //                 fileUri: res.uri,
-    //                 fileName: res.fileName,
-    //                 isExe: false,
-    //                 key: data.length + 1,
-    //             }
-    //         } else {
-    //             return
-    //         }
-    //
-    //         data.push(dataNew)
-    //         this.setState(data)
-    //         this.setState({ needUpdate: !needUpdate })
-    //     }
-    // )
+    DocumentPicker.show(
+      {
+        filetype: [DocumentPickerUtil.allFiles()],
+      },
+      (error, res) => {
+        if (error || res.uri === null) {
+          return;
+        }
+
+        if (this.checkContains(res.uri)) {
+          setError([{ message: "Данный файл уже загружен." }]);
+          return;
+        }
+        if (res.fileSize > 10000000) {
+          setError([{ message: "Размер файла не должен превышать 10 МБ." }]);
+          return;
+        }
+
+        let dataNew = {};
+
+        const fileType = this.getFileType(res.fileName);
+
+        if (fileType === "image") {
+          dataNew = {
+            fileUri: res.uri,
+            fileName: res.fileName,
+            isImage: true,
+            key: data.length + 1,
+          };
+        } else if (fileType === "pdf") {
+          dataNew = {
+            fileUri: res.uri,
+            fileName: res.fileName,
+            isPdf: true,
+            key: data.length + 1,
+          };
+        } else if (fileType !== ".exe") {
+          dataNew = {
+            fileUri: res.uri,
+            fileName: res.fileName,
+            isExe: false,
+            key: data.length + 1,
+          };
+        } else {
+          return;
+        }
+
+        data.push(dataNew);
+        this.setState(data);
+        this.setState({ needUpdate: !needUpdate });
+      },
+    );
   }
 
   openPhotoPicker() {
@@ -531,22 +530,24 @@ class Chat extends Component {
     const { needUpdate, messages, text, data, isShowLoader } = this.state;
     return (
       <View style={{ flex: 1 }}>
-        {/*<ReactNativePickerModule*/}
-        {/*    pickerRef={(e) => {*/}
-        {/*        this.pickerRef = e*/}
-        {/*    }}*/}
-        {/*    title="Какой файл вы хотите прикрепить"*/}
-        {/*    confirmButton="Выбрать"*/}
-        {/*    cancelButton="Отмена"*/}
-        {/*    items={['Фото', 'Документ']}*/}
-        {/*    onValueChange={(value, index) =>*/}
-        {/*        setTimeout(*/}
-        {/*            () =>*/}
-        {/*                index === 0 ? this.openPhotoPicker() : this.openDocumentPicker(),*/}
-        {/*            700*/}
-        {/*        )*/}
-        {/*    }*/}
-        {/*/>*/}
+        <ReactNativePickerModule
+          pickerRef={e => {
+            this.pickerRef = e;
+          }}
+          title="Какой файл вы хотите прикрепить"
+          confirmButton="Выбрать"
+          cancelButton="Отмена"
+          items={["Фото", "Документ"]}
+          onValueChange={(value, index) =>
+            setTimeout(
+              () =>
+                index === 0
+                  ? this.openPhotoPicker()
+                  : this.openDocumentPicker(),
+              700,
+            )
+          }
+        />
         <ModalRoot.ModalRootContext.Consumer>
           {context => {
             this.modalRootContext = context;
@@ -567,18 +568,18 @@ class Chat extends Component {
           extraData={needUpdate}
           data={this.getData(data)}
           numColumns={this.getColumns()}
-          renderItem={({ item }) =>
-            item.key > -1 ? (
-              <ImageContainer
-                onRemoveItem={this.removeData}
-                idComponent={item}
-              />
-            ) : (
-              <View style={styles.space} />
-            )
+          renderItem={
+            ({ item }) =>
+              item.key > -1 ? (
+                <ImageContainer
+                  onRemoveItem={this.removeData}
+                  idComponent={item}
+                />
+              ) : (
+                <View style={styles.space} />
+              ) // это какая-то хрень
           }
         />
-
         {appealState === "Закрыто" ? (
           <View style={{ marginBottom: 45 }} />
         ) : (
@@ -608,7 +609,7 @@ class Chat extends Component {
                 onPress={this.onPressSendMessageButton}
                 disabled={text.length === 0}>
                 {isShowLoader ? (
-                  <SpinLoader style={styles.splinLoader} />
+                  <SpinLoader style={styles.spinloader} />
                 ) : (
                   <Image
                     style={[
@@ -631,3 +632,4 @@ export default connect(null, {
   setError: shared.actions.error,
   sendComment: shared.actions.sendComment,
 })(Chat);
+

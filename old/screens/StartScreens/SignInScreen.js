@@ -1,34 +1,26 @@
-import React, {useState} from 'react';
-import {
-  Image,
-  ScrollView,
-  StyleSheet,
-  Text,
-  TextInput,
-  TouchableOpacity,
-  View,
-} from 'react-native';
-import {connect} from 'react-redux';
+import React, { useState } from "react";
+import { Alert, Image, ScrollView, StyleSheet, Text, TextInput, TouchableOpacity, View } from "react-native";
+import { connect } from "react-redux";
 
-import StoneHedge from '../../../assets/oldImg/StoneHedge.png';
-import shared from '../../../store/index';
-import DefaultButton from '../../components/buttons/DefaultButton';
-import CircleCheckBox from '../../components/custom/CircleCheckBox';
-import ModalPrivacyPolicy from '../../components/custom/ModalPrivacyPolicy';
-import {Fonts} from '../../utils/Fonts';
-import reportError from '../../utils/ReportError';
-import RNSecureStorage, {ACCESSIBLE} from 'rn-secure-storage';
+import StoneHedge from "../../../assets/oldImg/StoneHedge.png";
+import shared from "../../../store/index";
+import DefaultButton from "../../components/buttons/DefaultButton";
+import CircleCheckBox from "../../components/custom/CircleCheckBox";
+import ModalPrivacyPolicy from "../../components/custom/ModalPrivacyPolicy";
+import { Fonts } from "../../utils/Fonts";
+import reportError from "../../utils/ReportError";
+import RNSecureStorage, { ACCESSIBLE } from "rn-secure-storage";
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    justifyContent: 'center',
+    justifyContent: "center",
     margin: 24,
   },
   textForgot: {
-    alignSelf: 'flex-end',
+    alignSelf: "flex-end",
     marginRight: 10,
-    color: '#747E90',
+    color: "#747E90",
     fontFamily: Fonts.DisplayLight,
     fontSize: 12,
   },
@@ -37,52 +29,52 @@ const styles = StyleSheet.create({
     paddingTop: 25,
     paddingBottom: 0,
     borderBottomWidth: 0.5,
-    borderBottomColor: '#E6E6E6',
-    color: '#747E90',
-    fontStyle: 'italic',
+    borderBottomColor: "#E6E6E6",
+    color: "#747E90",
+    fontStyle: "italic",
   },
   password: {
     height: 60,
     paddingTop: 25,
     paddingBottom: 0,
     borderBottomWidth: 0.5,
-    borderBottomColor: '#E6E6E6',
-    color: '#747E90',
-    fontStyle: 'italic',
+    borderBottomColor: "#E6E6E6",
+    color: "#747E90",
+    fontStyle: "italic",
   },
   imageLabel: {
-    width: '100%',
-    resizeMode: 'contain',
-    tintColor: '#222221',
+    width: "100%",
+    resizeMode: "contain",
+    tintColor: "#222221",
   },
   buttonPasswordForgot: {
-    width: '50%',
-    flexDirection: 'column',
-    alignItems: 'center',
-    justifyContent: 'center',
+    width: "50%",
+    flexDirection: "column",
+    alignItems: "center",
+    justifyContent: "center",
   },
   checkBoxLabel: {
-    justifyContent: 'center',
-    color: '#747E90',
+    justifyContent: "center",
+    color: "#747E90",
     fontFamily: Fonts.DisplayLight,
     fontSize: 12,
   },
   agreementCheckBoxText: {
-    color: '#747E90',
+    color: "#747E90",
     fontFamily: Fonts.DisplayLight,
     fontSize: 11,
   },
   agreementCheckBoxLink: {
-    textDecorationLine: 'underline',
+    textDecorationLine: "underline",
   },
   agreementCheckBoxContainer: {
-    flexDirection: 'row',
-    alignItems: 'center',
+    flexDirection: "row",
+    alignItems: "center",
     marginTop: 35,
   },
   additionalWrapper: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
+    flexDirection: "row",
+    justifyContent: "space-between",
     marginTop: 20,
   },
   textButton: {
@@ -95,12 +87,12 @@ const styles = StyleSheet.create({
   },
 });
 
-function SignInScreen({navigation, fetchProfile, auth}) {
+function SignInScreen({ navigation, fetchProfile, auth }) {
   const modalPrivacyPolicyRef = React.createRef();
   const [isRememberMe, setIsRememberMe] = useState(false);
   const [isProgress, setIsProgress] = useState(false);
-  const [login, setLogin] = useState(__DEV__ ? 'extra1' : '');
-  const [password, setPassword] = useState(__DEV__ ? 'extra1extra1' : '');
+  const [login, setLogin] = useState(__DEV__ ? "extra1" : "");
+  const [password, setPassword] = useState(__DEV__ ? "extra1extra1" : "");
 
   const openPolicyModal = async () => {
     // modalPrivacyPolicyRef.current.open();
@@ -112,9 +104,9 @@ function SignInScreen({navigation, fetchProfile, auth}) {
 
   const signIn = () => {
     setIsProgress(true);
-    auth({login, password})
+    auth({ login, password })
       .then(() => {
-        RNSecureStorage.getItem('login')
+        RNSecureStorage.getItem("login")
           .then(() => {
             signInSuccess();
           })
@@ -124,42 +116,44 @@ function SignInScreen({navigation, fetchProfile, auth}) {
           });
       })
       .catch(error => {
-        reportError(error, 'SingIn/signIn');
+        Alert.alert("Неверено введен пароль", "Проверьте правильность логина или пароля", [
+          { text: "OK", onPress: () => console.log("OK Pressed") },
+        ]);
+        reportError(error, "SingIn/signIn");
       })
       .finally(() => setIsProgress(false));
   };
 
   const signInSuccess = () => {
-    console.log('');
     fetchProfile()
       .then(res => {
-        RNSecureStorage.setItem('login', login, {
+        RNSecureStorage.setItem("login", login, {
           accessible: ACCESSIBLE.WHEN_UNLOCKED,
         });
         if (isRememberMe) {
-          RNSecureStorage.setItem('password', password, {
+          RNSecureStorage.setItem("password", password, {
             accessible: ACCESSIBLE.WHEN_UNLOCKED,
           });
         }
         const fio =
-          (res.payload.data.profile && res.payload.data.profile.fio) || '';
-        navigation.navigate(isRememberMe ? 'PinCodeScreen' : 'GreetingScreen', {
+          (res.payload.data.profile && res.payload.data.profile.fio) || "";
+        navigation.navigate(isRememberMe ? "PinCodeScreen" : "GreetingScreen", {
           fio,
         });
       })
       .catch(error => {
-        reportError(error, 'SingIn/signInSuccess/fetchProfile');
+        reportError(error, "SingIn/signInSuccess/fetchProfile");
       });
   };
 
   return (
-    <View style={{flex: 1}}>
+    <View style={{ flex: 1 }}>
       <ModalPrivacyPolicy
         modalRef={modalPrivacyPolicyRef}
         onAcceptClicked={signInSuccess}
       />
       <ScrollView
-        contentContainerStyle={{flexGrow: 1}}
+        contentContainerStyle={{ flexGrow: 1 }}
         scrollEventThrottle={16}>
         <View style={styles.container}>
           <Image style={styles.imageLabel} source={StoneHedge} />
@@ -167,6 +161,7 @@ function SignInScreen({navigation, fetchProfile, auth}) {
             style={styles.login}
             placeholder="Введите логин"
             autoCapitalize="none"
+            placeholderTextColor="#797979"
             selectionColor="#747E90"
             onChangeText={l => setLogin(l)}
             value={login}
@@ -176,6 +171,7 @@ function SignInScreen({navigation, fetchProfile, auth}) {
             placeholder="Введите пароль"
             autoCapitalize="none"
             selectionColor="#747E90"
+            placeholderTextColor="#797979"
             secureTextEntry
             onChangeText={p => setPassword(p)}
             value={password}
@@ -190,7 +186,7 @@ function SignInScreen({navigation, fetchProfile, auth}) {
             />
             <TouchableOpacity
               style={styles.buttonPasswordForgot}
-              onPress={() => navigation.navigate('PasswordRecoveryScreen')}>
+              onPress={() => navigation.navigate("PasswordRecoveryScreen")}>
               <Text style={styles.textForgot}>Забыли пароль?</Text>
             </TouchableOpacity>
           </View>
